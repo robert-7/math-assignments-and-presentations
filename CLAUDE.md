@@ -81,7 +81,6 @@ files that *are* tracked in git are figure assets under `images/` and `Feathergr
 outputs.)
 
 **CI** (`.github/workflows/main.yaml`), two jobs:
-
 - `pre-commit` — runs on every PR and push; installs LaTeX lint deps via `install.sh --lint` then runs all hooks.
 - `build-and-upload` — runs **only on push to `main`**; installs `texlive-full` via `install.sh --build`,
   builds twice, restores the `gdrive` account from the base64 secret `GDRIVE_ACCOUNT_EXPORT_BASE64`, and uploads.
@@ -92,7 +91,6 @@ Bash (`shellcheck`), Makefile (`checkmake`), plus generic hygiene hooks. `.chkte
 suppresses chktex warnings 3, 8, and 24 (each documented inline with a rationale link).
 
 **Supporting code.** Two topics carry code that validates the math:
-
 - `Solving Linear Relations using Linear Algebra/code/validate.py` — numpy; checked by pylint/flake8.
 - `Extending Conditional Recurrences over Finite Fields/code/src/Recursion.java` — Java (Eclipse
   project; no committed build config).
