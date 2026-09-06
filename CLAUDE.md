@@ -18,6 +18,11 @@ committed — CI builds them and uploads them to a shared Google Drive folder.
   `brew install --cask mactex-no-gui` (provides `pdflatex`) and `brew install chktex`.
 - CI (Ubuntu) is the source of truth for builds and linting. Prefer verifying changes via CI or
   `pre-commit` over assuming a local TeX toolchain exists.
+- **Run `pre-commit install` once per checkout** (a fresh `git clone` does *not* have this set up).
+  Without it, `git commit` skips all local linting and failures (markdownlint, flake8, chktex, etc.)
+  are only caught later in CI — after the commit/push already happened. If `pre-commit install` was
+  skipped, at minimum run `pre-commit run --all-files` before every commit that touches non-`.tex`
+  files (chktex will still fail locally without the TeX toolchain above, but every other hook works).
 
 ## Common commands
 
