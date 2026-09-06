@@ -76,6 +76,7 @@ files that *are* tracked in git are figure assets under `images/` and `Feathergr
 outputs.)
 
 **CI** (`.github/workflows/main.yaml`), two jobs:
+
 - `pre-commit` — runs on every PR and push; installs LaTeX lint deps via `install.sh --lint` then runs all hooks.
 - `build-and-upload` — runs **only on push to `main`**; installs `texlive-full` via `install.sh --build`,
   builds twice, restores the `gdrive` account from the base64 secret `GDRIVE_ACCOUNT_EXPORT_BASE64`, and uploads.
@@ -86,6 +87,7 @@ Bash (`shellcheck`), Makefile (`checkmake`), plus generic hygiene hooks. `.chkte
 suppresses chktex warnings 3, 8, and 24 (each documented inline with a rationale link).
 
 **Supporting code.** Two topics carry code that validates the math:
+
 - `Solving Linear Relations using Linear Algebra/code/validate.py` — numpy; checked by pylint/flake8.
 - `Extending Conditional Recurrences over Finite Fields/code/src/Recursion.java` — Java (Eclipse
   project; no committed build config).
@@ -93,9 +95,9 @@ suppresses chktex warnings 3, 8, and 24 (each documented inline with a rationale
 ## Adding a new paper (checklist)
 
 1. Create the topic directory with `paper.tex` **or** `presentation.tex` and an `images/` dir.
-2. Add the exact directory name to the `topics=(...)` array in `scripts/topics.sh` (keep it sorted).
-3. Add a `README.md` describing the paper (and, ideally, linking its published PDF).
-4. Run `pre-commit run --all-files` and build locally (twice) before opening a PR.
+1. Add the exact directory name to the `topics=(...)` array in `scripts/topics.sh` (keep it sorted).
+1. Add a `README.md` describing the paper (and, ideally, linking its published PDF).
+1. Run `pre-commit run --all-files` and build locally (twice) before opening a PR.
 
 ## Known broken / stale config (verify before relying on these)
 
