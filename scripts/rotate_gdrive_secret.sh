@@ -39,14 +39,27 @@ tmp_dir="$(mktemp -d)"
 trap 'rm -rf "${tmp_dir}"' EXIT
 
 echo "Exporting gdrive account '${account}'..."
+# gdrive names the archive "gdrive_export-<normalized-account>.tar" (non-alnum
+# chars become '_') in the working directory, so run it in the empty temp dir
+# and then discover whatever .tar it produced rather than hardcoding the name.
 (cd "${tmp_dir}" && gdrive account export "${account}")
 
-tar_file="${tmp_dir}/${account}.tar"
-if [ ! -f "${tar_file}" ]; then
-  echo "ERROR: expected export file not found: ${tar_file}" >&2
+echo "Export directory contents:"
+ls -la "${tmp_dir}" >&2
+
+tar_files=("${tmp_dir}"/*.tar)
+if [ ! -e "${tar_files[0]}" ]; then
+  echo "ERROR: no .tar file was produced by 'gdrive account export ${account}'." >&2
   echo "Check that '${account}' matches an entry in 'gdrive account list'." >&2
   exit 1
 fi
+if [ "${#tar_files[@]}" -ne 1 ]; then
+  echo "ERROR: expected exactly one .tar file, found ${#tar_files[@]}:" >&2
+  printf '  %s\n' "${tar_files[@]}" >&2
+  exit 1
+fi
+tar_file="${tar_files[0]}"
+echo "Using export archive: $(basename "${tar_file}")"
 
 echo "Base64-encoding the export..."
 base64_file="${tmp_dir}/export.b64"
