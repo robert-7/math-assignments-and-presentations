@@ -70,6 +70,8 @@ else
 fi
 
 echo "Updating the GDRIVE_ACCOUNT_EXPORT_BASE64 secret..."
-gh secret set GDRIVE_ACCOUNT_EXPORT_BASE64 --body-file "${base64_file}"
+# `gh secret set` has no --body-file flag; it reads the value from stdin when
+# --body is omitted, so feed the base64 payload in via redirection.
+gh secret set GDRIVE_ACCOUNT_EXPORT_BASE64 <"${base64_file}"
 
 echo "Done. Secret updated for $(gh repo view --json nameWithOwner -q .nameWithOwner)."
