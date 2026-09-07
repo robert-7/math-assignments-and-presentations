@@ -3,6 +3,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 declare -a topics
+# shellcheck source=SCRIPTDIR/topics.sh
 source "${SCRIPT_DIR}/topics.sh"
 
 push_to_gdrive() {
