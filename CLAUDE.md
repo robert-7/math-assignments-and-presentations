@@ -11,11 +11,16 @@ committed — CI builds them and uploads them to a shared Google Drive folder.
 
 ## Environment note (read first)
 
-- The primary dev machine here is **macOS**, but `scripts/install.sh` is **Ubuntu/apt-only** and will
-  not run on macOS. On this machine `pre-commit`, `python3`, and `java` are available, but `pdflatex`
-  and `chktex` are **not installed**.
-- To build or LaTeX-lint locally on macOS, install a TeX distribution first, e.g.
-  `brew install --cask mactex-no-gui` (provides `pdflatex`) and `brew install chktex`.
+- The primary dev machine here is **macOS**. `scripts/install.sh` detects the OS and installs via
+  `apt` on Linux or Homebrew on macOS. On this machine `pre-commit`, `python3`, and `java` are
+  available, but `pdflatex` and `chktex` may **not** be installed until you run the script.
+- To install the toolchain on macOS, run `scripts/install.sh` (optionally scoped with `--lint` /
+  `--build`). `shellcheck` installs via `brew install`. `chktex` has no standalone Homebrew formula —
+  it only ships inside a TeX Live distribution, so `--build` pulls in `mactex-no-gui` (which provides
+  both `pdflatex` and `chktex`), while `--lint` alone installs the smaller `basictex` cask plus
+  `chktex` via `tlmgr install chktex`. `basictex` and `mactex-no-gui` conflict with each other and
+  can't both be installed — the script detects this and tells you which one to uninstall first.
+  `gdrive` is skipped on macOS (uploads run in CI only).
 - CI (Ubuntu) is the source of truth for builds and linting. Prefer verifying changes via CI or
   `pre-commit` over assuming a local TeX toolchain exists.
 - **Run `pre-commit install` once per checkout** (a fresh `git clone` does *not* have this set up).
