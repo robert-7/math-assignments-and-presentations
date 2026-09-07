@@ -12,5 +12,5 @@ pip install -r requirements.txt
 Run script like so:
 
 ```bash
-python test_results.py
+python validate.py
 ```
