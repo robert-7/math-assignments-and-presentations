@@ -102,7 +102,9 @@ install_macos() {
 install_gdrive() {
 	local url_to_gdrive_binary="https://github.com/glotlabs/gdrive/releases/download/3.9.1/gdrive_linux-x64.tar.gz"
 	local install_path="/usr/local/bin/gdrive"
-	local tmp_dir
+	# Not `local`: the cleanup trap below fires on the whole script's EXIT,
+	# which happens after this function has already returned, so tmp_dir
+	# must still be in scope (as a global) at that point.
 	tmp_dir="$(mktemp -d)"
 
 	# shellcheck disable=SC2317  # invoked via the trap below
